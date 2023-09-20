@@ -1,0 +1,4 @@
+(seq
+  	(ap el $stream)
+  	(canon %init_peer_id% $stream #stream-canon)
+)
