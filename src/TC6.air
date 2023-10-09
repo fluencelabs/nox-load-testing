@@ -1,0 +1,13 @@
+(seq
+    (call peer_id_1 ("peer" "identify") [] peer_result_1)
+    (seq
+      (call peer_id_2 ("peer" "identify") [] peer_result_2)
+      (seq
+        (call peer_id_3 ("peer" "identify") [] peer_result_3)
+        (seq
+          (call peer_id_1 ("op" "noop") [])
+          (call %init_peer_id% ("callbackSrv" "response") [peer_result_1 peer_result_2 peer_result_3])
+        )
+      )
+    )
+)
