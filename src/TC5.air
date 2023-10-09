@@ -1,6 +1,6 @@
 (xor
   (seq
-    (call init_relay ("op" "identity") ["hello world!"] result)
+    (call init_relay ("op" "identity") [string_data] result)
     (call %init_peer_id% ("callback" "callback") [result])
   )
   (seq

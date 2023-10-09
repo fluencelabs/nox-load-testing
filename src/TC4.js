@@ -9,12 +9,14 @@ export const options = {
 const relay ="/dns4/0-benchmark.fluence.dev/tcp/9000/wss/p2p/12D3KooWPr286GAaLxVXJqHR4bPWZdoxQkGBwUchruaopAUf6SPm"
 
 const script = function (){
-    let content = open('./TC2.air');
-    return content.replaceAll("init_relay", "\"12D3KooWPr286GAaLxVXJqHR4bPWZdoxQkGBwUchruaopAUf6SPm\"")
+    let content = open('./TC4.air');
+    return content
+    .replaceAll("worker_id", "\"12D3KooWGoSshKHTbrRg5uZucuLJsMFda3au2ZMkms6v8cVkyytq\"")
+    .replaceAll("init_relay","\"12D3KooWPr286GAaLxVXJqHR4bPWZdoxQkGBwUchruaopAUf6SPm\"");
 }();
 
 const connection = retry(fluence.builder(relay).connect, 3);
 
 export default function () {
-    connection.send(script);
+    let resp = connection.execute(script);
 }
