@@ -3,10 +3,10 @@
 	(seq
 		(call init_relay ("op" "noop") [])
 	  (seq
-	    	(call worker_id ("benchmark" "write_file") ["/tmp/test" 1024] write_result)
+	    	(call worker_id ("benchmark" "write_file") ["/tmp/file_name" 1024] write_result)
 	    	(seq
-	    	  (call worker_id ("benchmark" "read_file") ["/tmp/test"] read_result)
-	    	  (call worker_id ("benchmark" "delete") ["/tmp/test"] delete_result)
+	    	  (call worker_id ("benchmark" "read_file") ["/tmp/file_name"] read_result)
+	    	  (call worker_id ("benchmark" "delete") ["/tmp/file_name"] delete_result)
 	    	)
 	  )
 	)
