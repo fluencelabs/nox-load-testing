@@ -1,3 +1,5 @@
+import fluence from 'k6/x/fluence';
+
 export const retry = (fn, maxAttempts) => {
     const execute = (attempt) => {
         try {
