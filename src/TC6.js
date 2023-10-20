@@ -1,11 +1,12 @@
 import fluence from 'k6/x/fluence';
 import {retry} from "./utils.js"
 import {htmlReport} from "https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js";
-import {textSummary} from "https://jslib.k6.io/k6-summary/0.0.1/index.js";
+import {textSummary} from "https://jslib.k6.io/k6-summary/0.0.4/index.js";
 
 export const options = {
     vus: 100,
     iterations: 10000,
+    teardownTimeout: "2m",
     fluence: {
         relay: "/dns4/0-benchmark.fluence.dev/tcp/9000/wss/p2p/12D3KooWPr286GAaLxVXJqHR4bPWZdoxQkGBwUchruaopAUf6SPm",
         peer_id_1: "12D3KooWPr286GAaLxVXJqHR4bPWZdoxQkGBwUchruaopAUf6SPm",
