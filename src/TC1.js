@@ -1,11 +1,27 @@
 import fluence from 'k6/x/fluence';
-import {retry} from "./utils.js"
-import {htmlReport} from "https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js";
-import {textSummary} from "https://jslib.k6.io/k6-summary/0.0.4/index.js";
+import { retry } from "./utils.js"
+import { htmlReport } from "https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js";
+import { textSummary } from "https://jslib.k6.io/k6-summary/0.0.4/index.js";
 
 export const options = {
-    vus: 100,
-    iterations: 10000,
+    scenarios: {
+        contacts: {
+            executor: 'constant-arrival-rate',
+            // How long the test lasts
+            duration: '30s',
+
+            // How many iterations per timeUnit
+            rate: 100,
+
+            // Start `rate` iterations per second
+            timeUnit: '1s',
+
+            // Pre-allocate VUs
+            preAllocatedVUs: 100,
+        },
+    },
+    // vus: 100,
+    // iterations: 10000,
     teardownTimeout: "2m",
     summaryTrendStats: ["min", "med", "p(90)", "p(99)", "max"],
     fluence: {
@@ -36,7 +52,7 @@ export default async function () {
 
 export function setup() {
     let start = new Date()
-    return {start: start};
+    return { start: start };
 }
 
 export function teardown(data) {
@@ -56,6 +72,6 @@ export function teardown(data) {
 export function handleSummary(data) {
     return {
         "TC1_result.html": htmlReport(data),
-        stdout: textSummary(data, {indent: " ", enableColors: true}),
+        stdout: textSummary(data, { indent: " ", enableColors: true }),
     };
 }
