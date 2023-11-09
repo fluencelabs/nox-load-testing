@@ -4,13 +4,11 @@ import {htmlReport} from "https://raw.githubusercontent.com/benc-uk/k6-reporter/
 import {textSummary} from "https://jslib.k6.io/k6-summary/0.0.4/index.js";
 
 export const options = {
-    vus: 100,
-    iterations: 10000,
     teardownTimeout: "2m",
     fluence: {
-        relay: "/dns4/0-benchmark.fluence.dev/tcp/9000/wss/p2p/12D3KooWPr286GAaLxVXJqHR4bPWZdoxQkGBwUchruaopAUf6SPm",
-        relay_peer_id: "12D3KooWPr286GAaLxVXJqHR4bPWZdoxQkGBwUchruaopAUf6SPm",
-        default_timeout: 3 * 60 * 1000 * 1000 * 1000, //3 minutes
+	relay: "/ip4/165.227.137.104/tcp/30895/ws/p2p/12D3KooWE8PaRfpTPfxkukLCY1EQmXq49xpLm28c8bEnYtfdhqdC",
+        relay_peer_id: "12D3KooWE8PaRfpTPfxkukLCY1EQmXq49xpLm28c8bEnYtfdhqdC",
+        default_timeout: 5 * 1000 * 1000 * 1000, //5 sec
         prometheus: {
             address: "https://mimir.fluence.dev/prometheus",
             username: __ENV.K6_FLUENCE_PROMETHEUS_USERNAME,
@@ -18,8 +16,16 @@ export const options = {
             org_id: "fluencelabs",
             env: "benchmark"
         }
+    },
+    scenarios: {
+        execute: {
+            executor: 'constant-arrival-rate',
+            rate: 350,
+            timeUnit: '1s',
+            duration: '24h',
+            preAllocatedVUs: 400,
+        }
     }
-
 };
 
 
