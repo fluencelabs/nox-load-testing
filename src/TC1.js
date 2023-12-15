@@ -4,20 +4,27 @@ import {htmlReport} from "https://raw.githubusercontent.com/benc-uk/k6-reporter/
 import {textSummary} from "https://jslib.k6.io/k6-summary/0.0.4/index.js";
 
 export const options = {
-    vus: 100,
-    iterations: 10000,
     teardownTimeout: "2m",
     summaryTrendStats: ["min", "med", "p(90)", "p(99)", "max"],
     fluence: {
-        relay: "/dns4/0-benchmark.fluence.dev/tcp/9000/wss/p2p/12D3KooWPr286GAaLxVXJqHR4bPWZdoxQkGBwUchruaopAUf6SPm",
+        relay: "/ip4/38.70.220.165/tcp/9991/ws/p2p/12D3KooWPr286GAaLxVXJqHR4bPWZdoxQkGBwUchruaopAUf6SPm",
         relay_peer_id: "12D3KooWPr286GAaLxVXJqHR4bPWZdoxQkGBwUchruaopAUf6SPm",
-        default_timeout: 3 * 60 * 1000 * 1000 * 1000, //3 minutes
+        default_timeout: 10 * 1000 * 1000 * 1000, //10 seconds
         prometheus: {
             address: "https://mimir.fluence.dev/prometheus",
             username: __ENV.K6_FLUENCE_PROMETHEUS_USERNAME,
             password: __ENV.K6_FLUENCE_PROMETHEUS_PASSWORD,
             org_id: "fluencelabs",
             env: "benchmark"
+        }
+    },
+    scenarios: {
+        execute: {
+            executor: 'constant-arrival-rate',
+            rate: 300,
+            timeUnit: '1s',
+            duration: '1h',
+            preAllocatedVUs: 500,
         }
     }
 };
@@ -42,7 +49,7 @@ export function setup() {
 export function teardown(data) {
     const start = new Date(data.start)
     const end = new Date()
-    fluence.injectPrometheusMetrics({
+ /*   fluence.injectPrometheusMetrics({
         "org_id": options.fluence.prometheus.org_id,
         "username": options.fluence.prometheus.username,
         "password": options.fluence.prometheus.password,
@@ -50,7 +57,7 @@ export function teardown(data) {
         "start": start,
         "end": end,
         "env": options.fluence.prometheus.env
-    });
+    });*/
 }
 
 export function handleSummary(data) {
