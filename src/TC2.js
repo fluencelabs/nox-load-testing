@@ -16,7 +16,7 @@ export const options = {
             org_id: "fluencelabs",
             env: "benchmark"
         }
-    }
+    },
     scenarios: {
         execute: {
             executor: 'constant-arrival-rate',
