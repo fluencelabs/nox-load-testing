@@ -23,7 +23,7 @@ export const options = {
             rate: 600,
             timeUnit: '1s',
             duration: '1h',
-            preAllocatedVUs: 800,
+            preAllocatedVUs: 100,
         }
     }
 };
