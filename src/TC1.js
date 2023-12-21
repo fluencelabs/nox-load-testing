@@ -46,6 +46,7 @@ export default async function () {
 	}else {
 	    throw e;
 	}
+    }
 }
 
 export function setup() {
