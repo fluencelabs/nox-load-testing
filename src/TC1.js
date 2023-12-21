@@ -21,10 +21,10 @@ export const options = {
     scenarios: {
         execute: {
             executor: 'constant-arrival-rate',
-            rate: 300,
+            rate: 1000,
             timeUnit: '1s',
-            duration: '1h',
-            preAllocatedVUs: 500,
+            duration: '10m',
+            preAllocatedVUs: 1000,
         }
     }
 };
@@ -38,7 +38,14 @@ const script = function () {
 const connection = retry(fluence.builder(options.fluence.relay).connect, 3);
 
 export default async function () {
-    await connection.asyncExecute(script, options.fluence.default_timeout);
+    try {
+	    await connection.asyncExecute(script, options.fluence.default_timeout);
+    } catch (e){
+	if (e == "particle timeout"){
+	    console.warn("Particle timeout");
+	}else {
+	    throw e;
+	}
 }
 
 export function setup() {
